@@ -6,27 +6,51 @@ import java.util.Scanner;
 public class MerryElves {
 
     public static void main(String[] args) {
-        ArrayList<Integer> masses = readMassesFromFile();
-        ArrayList<Integer> results = new ArrayList<>();
+        ArrayList<Integer> massesOfSpaceShipModules = readMassesFromFile();
+        ArrayList<Integer> fuelsForSpaceShipModules = new ArrayList<>();
+        ArrayList<Integer> fuelsForFuel = new ArrayList<>();
 
-        for (int mass : masses) {
-            results.add(calculateFuel(mass));
-        }
-        for (int i = 0; i < masses.size(); i++) {
-            System.out.println("Mass " + masses.get(i) + " takes " + results.get(i) + " fuel.");
+        // Writes fuel values in a results array
+        for (int mass : massesOfSpaceShipModules) {
+                fuelsForSpaceShipModules.add(calculateFuel(mass));
         }
 
+        // Calculates additional fuel for the fuel
+        for (int fuel : fuelsForSpaceShipModules) {
+            int newFuel =  fuel;
+            int totalFuel = 0;
+            while ( newFuel >= 0) {
+                newFuel = calculateFuel(newFuel);
+
+                // If a calculated new fuel below zero, ignore this result
+                if (newFuel < 0){
+                    break;
+                }
+
+                totalFuel += newFuel;
+            }
+            fuelsForFuel.add(totalFuel);
+        }
+
+        // Writes masses and fuel values in the log
+        for (int i = 0; i < massesOfSpaceShipModules.size(); i++) {
+            System.out.println("Mass " + massesOfSpaceShipModules.get(i) + " takes " + fuelsForSpaceShipModules.get(i) + " fuel.");
+        }
+
+        // Calculates total amount of fuel spent on the space ship launch
         int total = 0;
-        for (int fuel : results) {
-            total = total + fuel;
+        for (int i=0; i < fuelsForSpaceShipModules.size(); i++) {
+            total = total + fuelsForSpaceShipModules.get(i) + fuelsForFuel.get(i);
         }
         System.out.println("Total fuel amount is: " + total);
     }
 
+    // Calculates needed fuel to fly a module
     private static int calculateFuel(int mass) {
-        return Math.floorDiv(mass, 3)-2;
+        return  Math.floorDiv(mass, 3) - 2;
     }
 
+    // Accepts a data from a file, parses String to int and returns this data as an array
     private static ArrayList<Integer> readMassesFromFile() {
         ArrayList<Integer> masses = new ArrayList<>();
         try {
