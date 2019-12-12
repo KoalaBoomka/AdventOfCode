@@ -1,3 +1,5 @@
+package koalaboomka.adventofcode.day1;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ public class MerryElves {
     private static ArrayList<Integer> readMassesFromFile() {
         ArrayList<Integer> masses = new ArrayList<>();
         try {
-            File myFile = new File("/Users/Dasha/IdeaProjects/AdvertOfCode/resources/masses.txt");
+            File myFile = new File("/Users/Dasha/IdeaProjects/AdventOfCode/src/koalaboomka/adventofcode/day1/masses.txt");
             Scanner myReader = new Scanner(myFile);
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
